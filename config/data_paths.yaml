@@ -1,14 +1,17 @@
 data:
   raw:
-    rhinitis:      data/raw/respdisease_rhinitis_raw_20231231.xlsx
-    asthma:        data/raw/respdisease_asthma_raw_20231231.xlsx
-    pm10:          data/raw/env_pm10_raw_20241001.xlsx
-    pm25:          data/raw/env_pm25_raw_20241001.csv
+    rhinitis:           data/raw/respdisease_rhinitis_raw_20231231.xlsx
+    asthma:             data/raw/respdisease_asthma_raw_20231231.xlsx
+    pm10:               data/raw/env_pm10_raw_20241001.xlsx
+    pm25:               data/raw/env_pm25_raw_20241001.csv
 
   reference:
-    agegroup_map:  data/reference/reference_agegroup_mapping.xlsx
-    region_map:    data/reference/reference_region_mapping.xlsx
-    date_map:      data/reference/reference_date_mapping.xlsx
+    agegroup_map:       data/reference/reference_agegroup_mapping.xlsx
+    region_map:         data/reference/reference_region_mapping.xlsx
+    date_map:           data/reference/reference_date_mapping.xlsx
+    avgcode_map:        data/reference/reference_regional_avgcode_mapping.xlsx
 
   processed:
-    pm10_top30:    data/processed/pm10_top30_20250528_v1.csv
+    pm10_top30:          data/processed/pm10_top30_20250528_v1.csv
+    pm10_rename_region : data/processed/pm10_rename_region_20250529.xlsx
+    pm25_rename_region : data/processed/pm25_rename_region_20250529.xlsx

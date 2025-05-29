@@ -10,6 +10,7 @@ load_dotenv()
 SCRIPTS = [
     'scripts/boot.py',
     'scripts/data_loader.py',
+    'scripts/transformers.py',
     'scripts/database.py',
 ]
 
