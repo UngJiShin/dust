@@ -20,7 +20,8 @@ data:
     pm10_asthma_processed_v1:   data/processed/pm10_asthma_processed_20250529_v1.0.xlsx  
     pm25_asthma_processed_v1:   data/processed/pm25_asthma_processed_20250529_v1.0.xlsx  
     pm10_rhinitis_processed_v1:   data/processed/pm10_rhinitis_processed_20250529_v1.0.xlsx  
-    pm25_rhinitis_processed_v1:   data/processed/pm25_rhinitis_processed_20250529_v1.0.xlsx  
+    pm25_rhinitis_processed_v1:   data/processed/pm25_rhinitis_processed_20250529_v1.0.xlsx
+    Merged_Data_with_Season:   data/processed/Merged_Data_with_Season_20250531_v1.0.xlsx
 
   geo:
     korea_map: data/geo/korea_municipalities.json
