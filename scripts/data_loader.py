@@ -1,82 +1,55 @@
-################################################
-# 사용방법 - 복사하여 주석만 제거하여 사용
-# import sys
-# from pathlib import Path
+# scripts/data_loader.py
 
-# # 현재 노트북(.ipynb)이 src/ 안에 있으니 상위 폴더(프로젝트 루트)를 추가
-# BASE_DIR    = Path().resolve().parent    # Notebook이 src/ 안이라면 .parent
-# config_path = BASE_DIR / 'config' / 'data_paths.yaml'
-# proj_root = Path().resolve().parent
-# sys.path.insert(0, str(proj_root))
-
-
-# # 이제 바로 import
-# from scripts.data_loader import load_data
-
-# # 테스트
-# df_pm10 = load_data('pm10')
-################################################
-
-import yaml
-from pathlib import Path
-import pandas as pd
 import os
+import sys
+import yaml
+import pandas as pd
+from pathlib import Path
 
-# Determine project root directory supporting both script and interactive environments
-def _get_base_dir():
-    try:
-        # When running as a module
-        return Path(__file__).resolve().parent.parent
-    except NameError:
-        # Interactive (e.g., Jupyter Notebook)
-        return Path().resolve().parent
+# boot.py를 import하여, init_project_path()가 자동 실행되도록 한다
+import scripts.boot
 
-BASE_DIR = _get_base_dir()
-CONFIG_PATH = BASE_DIR / 'config' / 'data_paths.yaml'
+# 프로젝트 루트 경로를 결정 → BASE_DIR 변수로 저장
+from scripts.boot import find_project_root
+BASE_DIR = find_project_root()
+CONFIG_PATH = BASE_DIR / "config" / "data_paths.yaml"
 
-# Load YAML config
-def _load_config():
+# YAML config 로드
+def _load_config() -> dict:
     if not CONFIG_PATH.exists():
         raise FileNotFoundError(f"Config file not found: {CONFIG_PATH}")
-    with open(CONFIG_PATH, 'r', encoding='utf-8') as f:
+    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 _cfg = _load_config()
 
-# Helper function to load datasets based on config keys
-def load_data(name: str, section: str = 'raw') -> pd.DataFrame:
+def load_data(name: str, section: str = "raw") -> pd.DataFrame:
     """
-    Load a DataFrame based on the key and section defined in config/data_paths.yaml.
-
-    Parameters:
-        name (str): Key under data.<section> in the config (e.g., 'pm10', 'asthma', 'pm10_top30').
-        section (str): One of 'raw', 'processed', or 'reference'.
-
-    Returns:
-        pd.DataFrame: Loaded DataFrame from the specified path.
+    config/data_paths.yaml에서 data.<section>.<name> 키로 지정된 경로를 읽어서 DataFrame으로 반환합니다.
+    - name: data.<section>에 정의된 키 (예: 'pm10_processed_v1', 'reference_date_mapping' 등)
+    - section: 'raw', 'processed', 'reference' 중 하나
     """
-    # Retrieve path string from config
     try:
-        path_str = _cfg['data'][section][name]
+        path_str = _cfg["data"][section][name]
     except KeyError:
         raise KeyError(f"Config for data.{section}.{name} not found in {CONFIG_PATH}")
 
-    path = BASE_DIR / path_str
-    # If filename has no extension, assume CSV
-    if not os.path.splitext(path.name)[1]:
-        path = path.with_suffix('.csv')
-    suffix = path.suffix.lower()
+    full_path = BASE_DIR / path_str
 
-    # Check file existence
-    if not path.exists():
-        raise FileNotFoundError(f"Data file not found: {path}")
+    # 확장자가 없으면 .csv로 가정
+    if not os.path.splitext(full_path.name)[1]:
+        full_path = full_path.with_suffix(".csv")
 
-    # Read based on extension
-    if suffix in ('.xls', '.xlsx'):
-        return pd.read_excel(path)
-    elif suffix == '.csv':
-        return pd.read_csv(path)
-    elif suffix == '.parquet':
-        return pd.read_parquet(path)
+    suffix = full_path.suffix.lower()
+    if not full_path.exists():
+        raise FileNotFoundError(f"Data file not found: {full_path}")
+
+    # 확장자별로 읽기
+    if suffix in (".xls", ".xlsx"):
+        return pd.read_excel(full_path)
+    elif suffix == ".csv":
+        return pd.read_csv(full_path)
+    elif suffix == ".parquet":
+        return pd.read_parquet(full_path)
     else:
-        raise ValueError(f"Unsupported file format: {suffix}")
+        raise ValueError(f"Unsupported file extension: {suffix}")

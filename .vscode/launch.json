@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run init_database.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/init_database.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Run data_loader.py",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/data_loader.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

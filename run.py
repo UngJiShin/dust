@@ -8,10 +8,7 @@ load_dotenv()
 
 # 실행할 스크립트 목록
 SCRIPTS = [
-    'scripts/boot.py',
-    'scripts/data_loader.py',
-    'scripts/transformers.py',
-    'scripts/database.py',
+    "scripts/boot.py",
 ]
 
 def run_all():
